@@ -1,0 +1,137 @@
+syntax = "proto3";
+
+// protoc -I proto proto/todo.proto --go_out=./gen --go_opt=paths=source_relative --go-grpc_out=./gen --go-grpc_opt=paths=source_relative
+
+package todo;
+
+option go_package = "todo-service-go/protos/gen/todov1";
+
+service TodoService {
+  rpc CreateList (CreateListRequest) returns (CreateListResponse);
+  rpc GetAllLists (GetAllListsRequest) returns (GetAllListsResponse);
+  rpc GetListById (GetListByIdRequest) returns (GetListByIdResponse);
+  rpc DeleteList (DeleteListRequest) returns (DeleteListResponse);
+  rpc UpdateList (UpdateListRequest) returns (UpdateListResponse);
+
+  rpc CreateItem (CreateItemRequest) returns (CreateItemResponse);
+  rpc GetAllItems (GetAllItemsRequest) returns (GetAllItemsResponse);
+  rpc GetItemById (GetItemByIdRequest) returns (GetItemByIdResponse);
+  rpc DeleteItem (DeleteItemRequest) returns (DeleteItemResponse);
+  rpc UpdateItem (UpdateItemRequest) returns (UpdateItemResponse);
+}
+
+message CreateListRequest {
+  int64 user_id = 1;
+  TodoList list = 2;
+}
+
+message CreateListResponse {
+  int64 id = 1;
+}
+
+message GetAllListsRequest {
+  int64 user_id = 1;
+}
+
+message GetAllListsResponse {
+  repeated TodoList lists = 1;
+}
+
+message GetListByIdRequest {
+  int64 user_id = 1;
+  int64 id = 2;
+}
+
+message GetListByIdResponse {
+  TodoList list = 1;
+}
+
+message DeleteListRequest {
+  int64 user_id = 1;
+  int64 id = 2;
+}
+
+message DeleteListResponse {
+  string status = 1;
+}
+
+message UpdateListRequest {
+  int64 user_id = 1;
+  int64 id = 2;
+  UpdateTodoList input = 3;
+}
+
+message UpdateListResponse {
+  string status = 1;
+}
+
+message CreateItemRequest {
+  int64 user_id = 1;
+  int64 list_id = 2;
+  TodoItem item = 3;
+}
+
+message CreateItemResponse {
+  int64 id = 1;
+}
+
+message GetAllItemsRequest {
+  int64 user_id = 1;
+  int64 list_id = 2;
+}
+
+message GetAllItemsResponse {
+  repeated TodoItem items = 1;
+}
+
+message GetItemByIdRequest {
+  int64 user_id = 1;
+  int64 id = 2;
+}
+
+message GetItemByIdResponse {
+  TodoItem item = 1;
+}
+
+message DeleteItemRequest {
+  int64 user_id = 1;
+  int64 id = 2;
+}
+
+message DeleteItemResponse {
+  string status = 1;
+}
+
+message UpdateItemRequest {
+  int64 user_id = 1;
+  int64 id = 2;
+  UpdateTodoItem input = 3;
+}
+
+message UpdateItemResponse {
+  string status = 1;
+}
+
+message TodoList {
+  int64 id = 1;
+  string title = 2;
+  string description = 3;
+}
+
+message UpdateTodoList {
+  string title = 1;
+  string description = 2;
+}
+
+message TodoItem {
+  int64 id = 1;
+  string title = 2;
+  string description = 3;
+  bool done = 4;
+}
+
+message UpdateTodoItem {
+  string title = 1;
+  string description = 2;
+  bool done = 3;
+}

@@ -1,0 +1,44 @@
+syntax = "proto3"; // protoc -I proto proto/auth.proto --go_out./gen/go --go_opt=paths=source_relative --go-grpc_out=./gen --go-grpc_opt=paths=source_relative
+
+package auth;
+
+option go_package = "todo-service-go/protos/gen/authv1";
+
+service Auth {
+  rpc SignUp(SignUpRequest) returns (SignUpResponse);
+
+  rpc SignIn(SignInRequest) returns (SignInResponse);
+
+  rpc ValidateToken(TokenRequest) returns (TokenResponse);
+}
+
+message User {
+  string name = 1;
+  string username = 2;
+  string password = 3;
+}
+
+message SignUpRequest {
+  User user = 1;
+}
+
+message SignUpResponse {
+  int64 id = 1;
+}
+
+message SignInRequest {
+  string username = 1;
+  string password = 2;
+}
+
+message SignInResponse {
+  string token = 1;
+}
+
+message TokenRequest {
+  string token = 1;
+}
+
+message TokenResponse {
+  int64 user_id = 1;
+}
